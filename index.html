@@ -104,7 +104,7 @@ body {
 const encodedName = ["QklBTkNB", "Uk9TQQ==", "U0FMRVJOTw==", "UkVHSVNURVI="];
 const fullName = encodedName.map(encodedName => atob(encodedName))
 let guessedLetters = new Set();
-const maxAttempts = 5;
+const maxAttempts = 10;
 let attemptsLeft = maxAttempts;
 
 function initializeGame() {
