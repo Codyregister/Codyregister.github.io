@@ -85,7 +85,6 @@ body {
         </div>
 
         <div class="name-display" id="name-display">
-            <!-- The full name will be displayed here as underscores initially -->
             <div class="name-segment" id="segment-1"></div>
             <div class="name-segment" id="segment-2"></div>
             <div class="name-segment" id="segment-3"></div>
@@ -93,7 +92,6 @@ body {
         </div>
 
         <div class="keyboard">
-            <!-- The on-screen keyboard will be generated here -->
         </div>
 
         <div class="message" id="message"></div>
@@ -141,7 +139,6 @@ function selectLetter(letter) {
         return;
     }
 
-    // Marking the letter button as guessed
     const buttons = document.querySelectorAll('.keyboard button');
     for (const btn of buttons) {
         if (btn.textContent === letter) {
@@ -158,11 +155,9 @@ function selectLetter(letter) {
     } else {
         console.log(`Letter ${letter} is not in the name.`);
         
-        // Decrementing attempts and updating the display
         attemptsLeft--;
         document.getElementById('attempts-left').textContent = attemptsLeft;
         
-        // Checking if player has run out of attempts
         if (attemptsLeft <= 0) {
             document.getElementById('message').textContent = "Oops! Better luck next time! 🙁";
             disableAllButtons();
@@ -188,7 +183,6 @@ function revealLetter(letter) {
             }
         }
 
-        // Using innerText to update the display
         const segmentElement = document.getElementById(`segment-${i + 1}`);
         if (!segmentElement) {
             console.error(`Could not find segment element for segment-${i + 1}.`);
@@ -202,14 +196,6 @@ function revealLetter(letter) {
     }
 
     if (allComplete) {
-    //     confetti({
-    //     particleCount: 150, // Number of particles
-    //     spread: 70,         // Spread of the confetti
-    //     startVelocity: 25,  // Start velocity
-    //     colors: ['#FF007F', '#FF66B2', '#FFB6C1'],  // Shades of rose
-    //     shapes: ['circle', 'square'], // Shapes of the confetti particles
-    //     duration: 6000      // Duration in milliseconds
-    // });
     fireworks();
             document.getElementById('message').innerText = "Congratulations! You've guessed the full name! 🎉";
         disableAllButtons();
@@ -233,7 +219,6 @@ function fireworks() {
           }
 
           var particleCount = 50 * (timeLeft / duration);
-          // since particles fall down, start a bit higher than random
           confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
           confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
         }, 250);
