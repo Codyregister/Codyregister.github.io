@@ -73,6 +73,39 @@ body {
     font-size: 1.2em;
     margin-bottom: 20px;
 }
+input[type="text"] {
+    margin-top: 10px;
+    padding: 8px 12px;
+    font-size: 1em;
+    width: 80%;
+    max-width: 300px;
+    border: 2px solid #FFC1D2; /* Soft pink border to match the theme */
+    border-radius: 10px;
+    background-color: rgba(255, 240, 225, 0.8); /* Semi-transparent background */
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus {
+    border-color: #FFA2B8; /* Darker pink on focus */
+    box-shadow: 0px 0px 5px rgba(255, 162, 184, 0.5); /* Soft glow effect on focus */
+    outline: none; /* Remove the default browser outline */
+}
+
+
+button {
+    margin-top: 10px;
+    padding: 5px 15px;
+    background-color: #FFC1D2;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 1em;
+}
+
+button:hover {
+    background-color: #FFA2B8;
+}
 
     </style>
 </head>
@@ -85,12 +118,23 @@ body {
         </div>
 
         <div class="name-display" id="name-display">
-            <!-- The full name will be displayed here as underscores initially -->
             <div class="name-segment" id="segment-1"></div>
+            <input type="text" id="guess-1" placeholder="Guess name...">
+            <button onclick="guessNameSegment(0)">Guess</button>
+            
             <div class="name-segment" id="segment-2"></div>
+            <input type="text" id="guess-2" placeholder="Guess name...">
+            <button onclick="guessNameSegment(1)">Guess</button>
+            
             <div class="name-segment" id="segment-3"></div>
+            <input type="text" id="guess-3" placeholder="Guess name...">
+            <button onclick="guessNameSegment(2)">Guess</button>
+            
             <div class="name-segment" id="segment-4"></div>
+            <input type="text" id="guess-4" placeholder="Guess name...">
+            <button onclick="guessNameSegment(3)">Guess</button>
         </div>
+        
 
         <div class="keyboard">
             <!-- The on-screen keyboard will be generated here -->
@@ -170,6 +214,8 @@ function selectLetter(letter) {
     }
 }
 
+
+
 function revealLetter(letter) {
     console.log(`revealLetter function triggered with letter: ${letter}`);
     
@@ -215,6 +261,24 @@ function revealLetter(letter) {
         disableAllButtons();
     }
 }
+function guessNameSegment(segmentIndex) {
+    const guessedName = document.getElementById(`guess-${segmentIndex + 1}`).value.toUpperCase();
+
+    if (guessedName === fullName[segmentIndex]) {
+        // Correctly guessed the entire segment, so reveal it
+        document.getElementById(`segment-${segmentIndex + 1}`).textContent = guessedName;
+
+    } else {
+        attemptsLeft--;
+        document.getElementById('attempts-left').textContent = attemptsLeft;
+        if (attemptsLeft <= 0) {
+            document.getElementById('message').textContent = "Oops! Better luck next time! 🙁";
+            disableAllButtons();
+        }
+    }
+}
+
+
 
 function fireworks() {
         var duration = 15 * 1000;
@@ -262,11 +326,22 @@ function disableAllButtons() {
 }
 
 document.addEventListener('keydown', function(event) {
-    const key = event.key.toUpperCase();
-    if (key >= 'A' && key <= 'Z') {
-        selectLetter(key);
+    // Ensure we're not inside an input field
+    if (event.target.tagName !== 'INPUT') {
+        const key = event.key.toUpperCase();
+        if (key >= 'A' && key <= 'Z') {
+            selectLetter(key);
+        }
     }
 });
+
+for (let i = 0; i < fullName.length; i++) {
+    document.getElementById(`guess-${i + 1}`).addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            guessNameSegment(i);
+        }
+    });
+}
 
 initializeGame();
     </script>
